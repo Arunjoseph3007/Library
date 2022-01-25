@@ -114,16 +114,16 @@ public class issue_form {
                 String input_bauthor = author.getText();
                 JLabel error = new JLabel();
                 int count = 0;
-                if (input_isbn.isBlank() || input_isbn.isEmpty()) {
-                    if (input_bauthor.isBlank() || input_bname.isBlank()) {
+                if (input_isbn.isEmpty() || input_isbn.isEmpty()) {
+                    if (input_bauthor.isEmpty() || input_bname.isEmpty()) {
                         error.setBounds(50, 260, 200,20);
                         error.setVisible(true);
                         error.setText("* Check the input field of book details *");
                     }
                     else{
                         try{
-//                          Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3307/library","root","Tu^sh1234");
-                            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/library","root","Gogopal@123");
+                          Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3307/library","root","Tu^sh1234");
+//                            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/library","root","Gogopal@123");
                             Statement statement = connection.createStatement();
                             ResultSet resultSet = statement.executeQuery("select * from books where book_name="+input_bname+"and author_name="+input_bauthor);
                             while(resultSet.next()){
@@ -138,8 +138,8 @@ public class issue_form {
                 }
                 else{
                     try{
-//                          Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3307/library","root","Tu^sh1234");
-                        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/library","root","Gogopal@123");
+                          Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3307/library","root","Tu^sh1234");
+//                        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/library","root","Gogopal@123");
                         Statement statement = connection.createStatement();
                         ResultSet resultSet = statement.executeQuery("select * from books where book_id="+input_isbn);
                         while(resultSet.next()){
@@ -164,16 +164,16 @@ public class issue_form {
                 String input_user_name = issued_to_name.getText();
 
                 JLabel error = new JLabel();
-                if (input_user_id.isBlank()) {
-                    if (input_user_name.isBlank()) {
+                if (input_user_id.isEmpty()) {
+                    if (input_user_name.isEmpty()) {
                         error.setVisible(true);
                         error.setBounds(50, 260, 200,20);
                         error.setText("* Check the input field of user details *");
                     }
                     else{
                         try{
-//                          Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3307/library","root","Tu^sh1234");
-                            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/library","root","Gogopal@123");
+                          Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3307/library","root","Tu^sh1234");
+//                            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/library","root","Gogopal@123");
                             Statement statement = connection.createStatement();
                             ResultSet resultSet = statement.executeQuery("select * from user where user_name="+input_user_name);
                             while(resultSet.next()){
@@ -189,8 +189,8 @@ public class issue_form {
                 }
                 else{
                     try{
-//                      Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3307/library","root","Tu^sh1234");
-                        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/library","root","Gogopal@123");
+                      Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3307/library","root","Tu^sh1234");
+//                        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/library","root","Gogopal@123");
                         Statement statement = connection.createStatement();
                         ResultSet resultSet = statement.executeQuery("select * from user where user_id="+input_user_id);
                         while(resultSet.next()){
