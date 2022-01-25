@@ -5,12 +5,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.*;
 import javax.swing.*;
 
 public class issue_form {
 
     public static void form(){
+
         Frame issue_form = new Frame("Issue a book");
 
         Calendar future_date = Calendar.getInstance();
@@ -87,10 +92,117 @@ public class issue_form {
         return_date.setBounds(240,310,180,20);
         return_date.setText(future_day+"/"+future_month+"/"+future_year);
 
+
+
+
+
+
+
         issue.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 issue_dialog();
+            }
+        });
+
+
+        search_book.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String input_isbn = isbn.getText();
+                String input_bname = name.getText();
+                String input_bauthor = author.getText();
+                JLabel error = new JLabel();
+                int count = 0;
+                if (input_isbn.isBlank() || input_isbn.isEmpty()) {
+                    if (input_bauthor.isBlank() || input_bname.isBlank()) {
+                        error.setBounds(50, 260, 200,20);
+                        error.setVisible(true);
+                        error.setText("* Check the input field of book details *");
+                    }
+                    else{
+                        try{
+//                          Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3307/library","root","Tu^sh1234");
+                            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/library","root","Gogopal@123");
+                            Statement statement = connection.createStatement();
+                            ResultSet resultSet = statement.executeQuery("select * from books where book_name="+input_bname+"and author_name="+input_bauthor);
+                            while(resultSet.next()){
+                                isbn.setText(resultSet.getString("book_id"));
+                                count = Integer.parseInt(resultSet.getString("no_copies"));
+                            }
+                        }
+                        catch(Exception a){
+                            error.setVisible(true);
+                        }
+                    }
+                }
+                else{
+                    try{
+//                          Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3307/library","root","Tu^sh1234");
+                        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/library","root","Gogopal@123");
+                        Statement statement = connection.createStatement();
+                        ResultSet resultSet = statement.executeQuery("select * from books where book_id="+input_isbn);
+                        while(resultSet.next()){
+                            name.setText(resultSet.getString("book_name"));
+                            author.setText(resultSet.getString("author_name"));
+                            count = Integer.parseInt(resultSet.getString("no_copies"));
+                        }
+                    }
+                    catch(Exception a){
+                        error.setVisible(true);
+                    }
+                }
+
+            }
+        });
+
+        search_user.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                String input_user_id = issued_to.getText();
+                String input_user_name = issued_to_name.getText();
+
+                JLabel error = new JLabel();
+                if (input_user_id.isBlank()) {
+                    if (input_user_name.isBlank()) {
+                        error.setVisible(true);
+                        error.setBounds(50, 260, 200,20);
+                        error.setText("* Check the input field of user details *");
+                    }
+                    else{
+                        try{
+//                          Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3307/library","root","Tu^sh1234");
+                            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/library","root","Gogopal@123");
+                            Statement statement = connection.createStatement();
+                            ResultSet resultSet = statement.executeQuery("select * from user where user_name="+input_user_name);
+                            while(resultSet.next()){
+//                                System.out.println(resultSet.getString("book_id"));
+                                issued_to.setText(resultSet.getString("user_id"));
+                            }
+                        }
+                        catch(Exception a){
+//                            e.printStackTrace();
+                            error.setVisible(true);
+                        }
+                    }
+                }
+                else{
+                    try{
+//                      Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3307/library","root","Tu^sh1234");
+                        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/library","root","Gogopal@123");
+                        Statement statement = connection.createStatement();
+                        ResultSet resultSet = statement.executeQuery("select * from user where user_id="+input_user_id);
+                        while(resultSet.next()){
+//                                System.out.println(resultSet.getString("book_id"));
+                            issued_to_name.setText(resultSet.getString("user_name"));
+                        }
+                    }
+                    catch(Exception a){
+//                            e.printStackTrace();
+                        error.setVisible(true);
+                    }
+                }
             }
         });
 
